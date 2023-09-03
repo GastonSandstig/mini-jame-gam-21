@@ -1,0 +1,114 @@
+[gd_scene load_steps=12 format=3 uid="uid://bbny8nfb1ft0"]
+
+[ext_resource type="Script" path="res://gameplay_scene.gd" id="1_i3fjk"]
+[ext_resource type="Texture2D" uid="uid://bdo1mv8go4mcp" path="res://health_bar_under.png" id="2_5u2fu"]
+[ext_resource type="PackedScene" uid="uid://8lovca3rp5e2" path="res://LevelComplete.tscn" id="2_b5dls"]
+[ext_resource type="Texture2D" uid="uid://cjel7dribi7es" path="res://health_bar_over.png" id="3_6i5gb"]
+[ext_resource type="Texture2D" uid="uid://cy2mqfgrxuond" path="res://health_bar_progress.png" id="4_tmaha"]
+[ext_resource type="Texture2D" uid="uid://dbfq2tnuekfyq" path="res://background.png" id="5_mkblw"]
+[ext_resource type="PackedScene" uid="uid://bp36j34ns613y" path="res://PlayerCharacter.tscn" id="6_kw3xe"]
+[ext_resource type="PackedScene" uid="uid://b3tcuf41wn617" path="res://MediumAsteroid.tscn" id="7_odjdw"]
+[ext_resource type="Script" path="res://audio_library.gd" id="8_n8g76"]
+[ext_resource type="AudioStream" uid="uid://wubprmrj3x8o" path="res://levelend.wav" id="9_8g21m"]
+[ext_resource type="PackedScene" uid="uid://i4vq7y2s1d0u" path="res://SeekingAsteroid.tscn" id="10_2l8yr"]
+
+[node name="GameplayScene" type="Node"]
+script = ExtResource("1_i3fjk")
+next_level = ExtResource("2_b5dls")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HealthBar" type="TextureProgressBar" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+max_value = 3.0
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 160
+stretch_margin_right = 80
+texture_under = ExtResource("2_5u2fu")
+texture_over = ExtResource("3_6i5gb")
+texture_progress = ExtResource("4_tmaha")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_bottom = 126.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 50
+
+[node name="RemaingAsteroids" type="Label" parent="MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Remaining Asteroids"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_mkblw")
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("6_kw3xe")]
+position = Vector2(564, 320)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
+offset_left = 424.0
+offset_top = 243.0
+offset_right = 576.0
+offset_bottom = 283.0
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=25.0 connected=1]LEVEL  8 COMPLETE[/wave]"
+fit_content = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+position = Vector2(424, 243)
+color = Color(0.435294, 0.435294, 0.435294, 1)
+
+[node name="AudioLibrary" type="Node" parent="."]
+script = ExtResource("8_n8g76")
+
+[node name="jingle" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("9_8g21m")
+
+[node name="SeekingAsteroid" parent="." node_paths=PackedStringArray("player") groups=["asteroids"] instance=ExtResource("10_2l8yr")]
+position = Vector2(920, 519)
+player = NodePath("../PlayerCharacter")
+
+[node name="SeekingAsteroid2" parent="." node_paths=PackedStringArray("player") groups=["asteroids"] instance=ExtResource("10_2l8yr")]
+position = Vector2(66, 546)
+player = NodePath("../PlayerCharacter")
+
+[node name="SeekingAsteroid3" parent="." node_paths=PackedStringArray("player") groups=["asteroids"] instance=ExtResource("10_2l8yr")]
+position = Vector2(98, 116)
+player = NodePath("../PlayerCharacter")
+
+[node name="SeekingAsteroid4" parent="." node_paths=PackedStringArray("player") groups=["asteroids"] instance=ExtResource("10_2l8yr")]
+position = Vector2(919, 105)
+player = NodePath("../PlayerCharacter")
+
+[node name="MediumAsteroid2" parent="." groups=["asteroids"] instance=ExtResource("7_odjdw")]
+position = Vector2(96, 308)
+constant_linear_velocity = Vector2(111, 0)
+
+[node name="MediumAsteroid5" parent="." groups=["asteroids"] instance=ExtResource("7_odjdw")]
+position = Vector2(931, 312)
+constant_linear_velocity = Vector2(-111, 0)
+
+[connection signal="child_order_changed" from="." to="." method="_on_child_order_changed"]
+[connection signal="hurt" from="PlayerCharacter" to="." method="_on_player_character_hurt"]

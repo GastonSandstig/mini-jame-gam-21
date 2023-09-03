@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://i4vq7y2s1d0u"]
+
+[ext_resource type="Script" path="res://seeking_asteroid.gd" id="1_mddt8"]
+[ext_resource type="Texture2D" uid="uid://cu7hnwnyf7nhc" path="res://small_asteroid.png" id="2_21o86"]
+[ext_resource type="Texture2D" uid="uid://d3pih5av3nmsw" path="res://seeking_asteroid.png" id="2_v0ir4"]
+[ext_resource type="Script" path="res://audio_library.gd" id="3_jlutc"]
+[ext_resource type="AudioStream" uid="uid://dgur4drbloekf" path="res://alien.wav" id="5_anbio"]
+[ext_resource type="AudioStream" uid="uid://ds27th4vuxicf" path="res://hurt.wav" id="5_gnni6"]
+
+[sub_resource type="Gradient" id="Gradient_wsr24"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rox3a"]
+radius = 107.96
+height = 306.386
+
+[node name="SeekingAsteroid" type="StaticBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_mddt8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4, -4)
+rotation = 0.785398
+texture = ExtResource("2_v0ir4")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite2D"]
+position = Vector2(5.65685, 0)
+emitting = false
+amount = 5
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("2_21o86")
+emission_shape = 1
+emission_sphere_radius = 5.0
+spread = 90.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 500.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+linear_accel_min = -5.0
+linear_accel_max = -5.0
+scale_amount_min = 0.05
+scale_amount_max = 0.25
+color_ramp = SubResource("Gradient_wsr24")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0)
+rotation = 1.5708
+scale = Vector2(0.25, 0.25)
+shape = SubResource("CapsuleShape2D_rox3a")
+
+[node name="AudioLibrary" type="Node" parent="."]
+script = ExtResource("3_jlutc")
+
+[node name="stone" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("5_anbio")
+volume_db = 1.0
+
+[node name="smash" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("5_gnni6")
+volume_db = -12.92
+pitch_scale = 0.17

@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://5ak5qbgrcgt1"]
+
+[ext_resource type="Script" path="res://small_asteroid.gd" id="1_ca8c7"]
+[ext_resource type="Script" path="res://audio_library.gd" id="3_7rkfi"]
+[ext_resource type="Texture2D" uid="uid://cu7hnwnyf7nhc" path="res://small_asteroid.png" id="3_gwgcb"]
+[ext_resource type="AudioStream" uid="uid://d1dl8m5deyhin" path="res://stone.mp3" id="4_mp6po"]
+[ext_resource type="AudioStream" uid="uid://ds27th4vuxicf" path="res://hurt.wav" id="5_cxju0"]
+
+[sub_resource type="Gradient" id="Gradient_wsr24"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rox3a"]
+radius = 111.38
+height = 346.65
+
+[node name="SmallAsteroid" type="StaticBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_ca8c7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4, -4)
+texture = ExtResource("3_gwgcb")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite2D"]
+z_index = 1
+position = Vector2(4, 4)
+emitting = false
+amount = 5
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("3_gwgcb")
+emission_shape = 1
+emission_sphere_radius = 5.0
+spread = 90.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 500.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+linear_accel_min = -5.0
+linear_accel_max = -5.0
+scale_amount_min = 0.05
+scale_amount_max = 0.25
+color_ramp = SubResource("Gradient_wsr24")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+rotation = 0.753982
+scale = Vector2(0.25, 0.25)
+shape = SubResource("CapsuleShape2D_rox3a")
+
+[node name="AudioLibrary" type="Node" parent="."]
+script = ExtResource("3_7rkfi")
+
+[node name="stone" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("4_mp6po")
+volume_db = -15.678
+pitch_scale = 0.22
+
+[node name="smash" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("5_cxju0")
+volume_db = -12.92
+pitch_scale = 0.17

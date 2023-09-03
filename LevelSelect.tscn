@@ -1,0 +1,88 @@
+[gd_scene load_steps=15 format=3 uid="uid://qfvap57fxlhj"]
+
+[ext_resource type="Script" path="res://LevelSelect.gd" id="1_t6m67"]
+[ext_resource type="Texture2D" uid="uid://dbfq2tnuekfyq" path="res://background.png" id="1_whwjc"]
+[ext_resource type="PackedScene" uid="uid://dvdhdbow6x8ct" path="res://Level0.tscn" id="2_l33mr"]
+[ext_resource type="PackedScene" uid="uid://b775pu2tewsti" path="res://Level1.tscn" id="3_u8mlu"]
+[ext_resource type="PackedScene" uid="uid://ovaehv0n243r" path="res://Level2.tscn" id="4_r1oin"]
+[ext_resource type="PackedScene" uid="uid://btn4bqp6a474y" path="res://Level3.tscn" id="5_oidwi"]
+[ext_resource type="PackedScene" uid="uid://dlqdhx0jekle7" path="res://Level4.tscn" id="6_nll4e"]
+[ext_resource type="Script" path="res://LevelDropdown.gd" id="7_epgg1"]
+[ext_resource type="PackedScene" uid="uid://b2vat43uld7j4" path="res://Level5.tscn" id="7_smqot"]
+[ext_resource type="Script" path="res://audio_library.gd" id="8_6020p"]
+[ext_resource type="PackedScene" uid="uid://dh2f1kueydmyw" path="res://Level6.tscn" id="8_a2ing"]
+[ext_resource type="AudioStream" uid="uid://wubprmrj3x8o" path="res://levelend.wav" id="9_440mh"]
+[ext_resource type="PackedScene" uid="uid://6atkwoyexvjx" path="res://Level7.tscn" id="9_by4dv"]
+[ext_resource type="PackedScene" uid="uid://bbny8nfb1ft0" path="res://Level8.tscn" id="10_6uv5p"]
+
+[node name="LevelSelect" type="Node"]
+script = ExtResource("1_t6m67")
+levels = Array[PackedScene]([ExtResource("2_l33mr"), ExtResource("3_u8mlu"), ExtResource("4_r1oin"), ExtResource("5_oidwi"), ExtResource("6_nll4e"), ExtResource("7_smqot"), ExtResource("8_a2ing"), ExtResource("9_by4dv"), ExtResource("10_6uv5p")])
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/italics_font_size = 40
+bbcode_enabled = true
+text = "[center][i]MINE ASTEROIDS[/i][/center]"
+fit_content = true
+
+[node name="Start" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "YES"
+flat = true
+
+[node name="Music" type="CheckButton" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Music?          "
+flat = true
+alignment = 2
+
+[node name="Timer" type="CheckButton" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Time Attack?    "
+flat = true
+alignment = 2
+
+[node name="LevelDropdown" type="MenuButton" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+text = "Level Select"
+script = ExtResource("7_epgg1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_whwjc")
+
+[node name="AudioLibrary" type="Node" parent="."]
+script = ExtResource("8_6020p")
+
+[node name="jingle" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("9_440mh")
+pitch_scale = 0.7
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/Music" to="." method="_on_music_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/Timer" to="." method="_on_timer_toggled"]

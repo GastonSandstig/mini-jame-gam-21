@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://8lovca3rp5e2"]
+
+[ext_resource type="Script" path="res://LevelComplete.gd" id="1_pa6p1"]
+[ext_resource type="PackedScene" uid="uid://qfvap57fxlhj" path="res://LevelSelect.tscn" id="2_lsxqh"]
+[ext_resource type="Texture2D" uid="uid://bdo1mv8go4mcp" path="res://health_bar_under.png" id="3_foy2b"]
+[ext_resource type="Texture2D" uid="uid://cjel7dribi7es" path="res://health_bar_over.png" id="4_i0pyh"]
+[ext_resource type="Texture2D" uid="uid://cy2mqfgrxuond" path="res://health_bar_progress.png" id="5_6xcj1"]
+[ext_resource type="Texture2D" uid="uid://dbfq2tnuekfyq" path="res://background.png" id="6_v2e7g"]
+[ext_resource type="PackedScene" uid="uid://bp36j34ns613y" path="res://PlayerCharacter.tscn" id="7_1nmtr"]
+
+[node name="GameplayScene" type="Node"]
+script = ExtResource("1_pa6p1")
+startmenu = ExtResource("2_lsxqh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HealthBar" type="TextureProgressBar" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+max_value = 3.0
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 160
+stretch_margin_right = 80
+texture_under = ExtResource("3_foy2b")
+texture_over = ExtResource("4_i0pyh")
+texture_progress = ExtResource("5_6xcj1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_v2e7g")
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("7_1nmtr")]
+position = Vector2(496, 238)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 375.0
+offset_top = 157.0
+offset_right = 635.0
+offset_bottom = 213.0
+bbcode_enabled = true
+text = "
+[center][tornado radius=10.0 freq=1.0 connected=1][rainbow freq=1.0 sat=0.8 val=0.8]Game Complete![/rainbow][/tornado]"
+fit_content = true
+
+[node name="Button" type="Button" parent="."]
+offset_left = 425.0
+offset_top = 363.0
+offset_right = 433.0
+offset_bottom = 371.0
+text = "Back to start menu?"
+
+[connection signal="child_order_changed" from="." to="." method="_on_child_order_changed"]
+[connection signal="hurt" from="PlayerCharacter" to="." method="_on_player_character_hurt"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

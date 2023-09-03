@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3 uid="uid://dh2f1kueydmyw"]
+
+[ext_resource type="Script" path="res://gameplay_scene.gd" id="1_0q1ds"]
+[ext_resource type="Texture2D" uid="uid://bdo1mv8go4mcp" path="res://health_bar_under.png" id="2_fjrqh"]
+[ext_resource type="PackedScene" uid="uid://6atkwoyexvjx" path="res://Level7.tscn" id="2_rt4g4"]
+[ext_resource type="Texture2D" uid="uid://cjel7dribi7es" path="res://health_bar_over.png" id="3_vq8va"]
+[ext_resource type="Texture2D" uid="uid://cy2mqfgrxuond" path="res://health_bar_progress.png" id="4_qgwes"]
+[ext_resource type="Texture2D" uid="uid://dbfq2tnuekfyq" path="res://background.png" id="5_nsle0"]
+[ext_resource type="PackedScene" uid="uid://bp36j34ns613y" path="res://PlayerCharacter.tscn" id="6_jllhc"]
+[ext_resource type="PackedScene" uid="uid://b3tcuf41wn617" path="res://MediumAsteroid.tscn" id="7_o6ksr"]
+[ext_resource type="Script" path="res://audio_library.gd" id="8_kc4k3"]
+[ext_resource type="AudioStream" uid="uid://wubprmrj3x8o" path="res://levelend.wav" id="9_pwcnp"]
+[ext_resource type="PackedScene" uid="uid://i4vq7y2s1d0u" path="res://SeekingAsteroid.tscn" id="10_0rtsh"]
+
+[node name="GameplayScene" type="Node"]
+script = ExtResource("1_0q1ds")
+next_level = ExtResource("2_rt4g4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HealthBar" type="TextureProgressBar" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+max_value = 3.0
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 160
+stretch_margin_right = 80
+texture_under = ExtResource("2_fjrqh")
+texture_over = ExtResource("3_vq8va")
+texture_progress = ExtResource("4_qgwes")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_bottom = 126.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 50
+
+[node name="RemaingAsteroids" type="Label" parent="MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Remaining Asteroids"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_nsle0")
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("6_jllhc")]
+position = Vector2(636, 248)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer"]
+visible = false
+offset_left = 424.0
+offset_top = 243.0
+offset_right = 576.0
+offset_bottom = 283.0
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=25.0 connected=1]LEVEL  6 COMPLETE[/wave]"
+fit_content = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+position = Vector2(424, 243)
+color = Color(0.435294, 0.435294, 0.435294, 1)
+
+[node name="AudioLibrary" type="Node" parent="."]
+script = ExtResource("8_kc4k3")
+
+[node name="jingle" type="AudioStreamPlayer" parent="AudioLibrary"]
+stream = ExtResource("9_pwcnp")
+
+[node name="SeekingAsteroid" parent="." node_paths=PackedStringArray("player") groups=["asteroids"] instance=ExtResource("10_0rtsh")]
+position = Vector2(243, 147)
+player = NodePath("../PlayerCharacter")
+
+[node name="SeekingAsteroid2" parent="." node_paths=PackedStringArray("player") groups=["asteroids"] instance=ExtResource("10_0rtsh")]
+position = Vector2(836, 532)
+player = NodePath("../PlayerCharacter")
+
+[node name="MediumAsteroid" parent="." groups=["asteroids"] instance=ExtResource("7_o6ksr")]
+position = Vector2(381, 206)
+
+[node name="MediumAsteroid2" parent="." groups=["asteroids"] instance=ExtResource("7_o6ksr")]
+position = Vector2(731, 431)
+
+[connection signal="child_order_changed" from="." to="." method="_on_child_order_changed"]
+[connection signal="hurt" from="PlayerCharacter" to="." method="_on_player_character_hurt"]
