@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://gameplay_scene.gd" id="1_bn01a"]
 [ext_resource type="Texture2D" uid="uid://bdo1mv8go4mcp" path="res://health_bar_under.png" id="2_0kqsb"]
-[ext_resource type="PackedScene" uid="uid://ovaehv0n243r" path="res://Level2.tscn" id="2_ct2b5"]
+[ext_resource type="PackedScene" uid="uid://ovaehv0n243r" path="res://Level2.tscn" id="2_nsuy2"]
 [ext_resource type="Texture2D" uid="uid://cjel7dribi7es" path="res://health_bar_over.png" id="3_0iglh"]
 [ext_resource type="Texture2D" uid="uid://cy2mqfgrxuond" path="res://health_bar_progress.png" id="4_xjav1"]
 [ext_resource type="Texture2D" uid="uid://dbfq2tnuekfyq" path="res://background.png" id="5_7pj43"]
@@ -13,7 +13,7 @@
 
 [node name="GameplayScene" type="Node"]
 script = ExtResource("1_bn01a")
-next_level = ExtResource("2_ct2b5")
+next_level = ExtResource("2_nsuy2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 offset_right = 100.0

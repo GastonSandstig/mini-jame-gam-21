@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://8lovca3rp5e2"]
+[gd_scene load_steps=7 format=3 uid="uid://8lovca3rp5e2"]
 
 [ext_resource type="Script" path="res://LevelComplete.gd" id="1_pa6p1"]
-[ext_resource type="PackedScene" uid="uid://qfvap57fxlhj" path="res://LevelSelect.tscn" id="2_lsxqh"]
 [ext_resource type="Texture2D" uid="uid://bdo1mv8go4mcp" path="res://health_bar_under.png" id="3_foy2b"]
 [ext_resource type="Texture2D" uid="uid://cjel7dribi7es" path="res://health_bar_over.png" id="4_i0pyh"]
 [ext_resource type="Texture2D" uid="uid://cy2mqfgrxuond" path="res://health_bar_progress.png" id="5_6xcj1"]
@@ -10,7 +9,6 @@
 
 [node name="GameplayScene" type="Node"]
 script = ExtResource("1_pa6p1")
-startmenu = ExtResource("2_lsxqh")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 offset_right = 100.0
